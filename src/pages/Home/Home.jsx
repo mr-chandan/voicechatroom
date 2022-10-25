@@ -14,7 +14,7 @@ export const Home = () => {
     }
     let navigate = useNavigate();
     function start() {
-        navigate("/register");
+        navigate("/authenticate");
     }
 
     return <div className={styles.cardwrapper}>
@@ -25,10 +25,9 @@ export const Home = () => {
                 gradually to make sure nothing breaks
             </p>
             <div>
-                <Button text="Get your username" icon="arrow-forward" onClick={start} />
+                <Button text="Lets Go" icon="arrow-forward" onClick={start} />
                 <div className={styles.signin}>
                     <span className={styles.signintext}>Have an invite?</span>
-                    <Link to='/login' style={signinlink}>Sign in</Link>
                 </div>
             </div>
         </Card>
