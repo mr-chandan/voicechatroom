@@ -5,11 +5,7 @@ import { Navigation } from "./components/shared/Navigation/Navigation";
 import { Authenticate } from "./pages/Authenticate/Authenticate";
 import Activate from "./pages/Activate/Activate";
 import Rooms from "./pages/Rooms/Rooms";
-
-const isauth = false;
-const user = {
-  activated: true
-}
+import { useSelector } from "react-redux";
 
 function App() {
 
@@ -18,14 +14,14 @@ function App() {
       <Navigation />
       <Routes>
         <Route element={<GuestRoute />}>
-          <Route path="/" element={<Home/>} />
+          <Route path="/" element={<Home />} />
           <Route path="/authenticate" element={<Authenticate />} />
         </Route>
         <Route element={<SemiProtectedRoute />}>
           <Route path="/activate" element={<Activate />} />
         </Route>
         <Route element={<ProtectedRoute />}>
-          <Route path="/rooms" element={<Rooms/>} />
+          <Route path="/rooms" element={<Rooms />} />
         </Route>
       </Routes>
     </BrowserRouter>
@@ -33,13 +29,16 @@ function App() {
 }
 
 const GuestRoute = () => {
+  const { isauth } = useSelector((state) => state.authSlice)
   return (isauth ? <Navigate to="/rooms" /> : <Outlet />)
 }
 const SemiProtectedRoute = () => {
+  const { isauth, user } = useSelector((state) => state.authSlice)
   return (!isauth ? <Navigate to='/' /> : isauth && !user.activated ? <Outlet /> : <Navigate to='/rooms' />)
 }
 const ProtectedRoute = () => {
-return (!isauth ? <Navigate to='/'/> : isauth && !user.activated ? <Navigate to='/activate' /> : <Outlet />)
+  const { isauth, user } = useSelector((state) => state.authSlice)
+  return (!isauth ? <Navigate to='/' /> : isauth && !user.activated ? <Navigate to='/activate' /> : <Outlet />)
 }
 
 export default App;
